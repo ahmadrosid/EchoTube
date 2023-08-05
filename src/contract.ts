@@ -12,7 +12,7 @@ const PostSchema = z.object({
 export const apiContract = contract.router({
   transcribeVideo: {
     method: "POST",
-    path: "/transcribe",
+    path: "/api/transcribe",
     responses: {
       200: PostSchema,
     },
