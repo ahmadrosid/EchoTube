@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
       "sourceMap": true,
-      "outDir": "./dist",
+      "outDir": "build",
       "strict": true,
       "lib": ["es2019", "dom"],
       "esModuleInterop": true,
