@@ -47,8 +47,8 @@ const openapiDocument = generateOpenApi(
 const apiDocs = express.Router();
 apiDocs.use(serve);
 apiDocs.get("/", setup(openapiDocument));
-app.use("/api/docs", apiDocs);
-app.get("/api/swagger.json", (req, res) => {
+app.use("/docs", apiDocs);
+app.get("/swagger.json", (req, res) => {
   res.json(openapiDocument);
 });
 
