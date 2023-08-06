@@ -5,6 +5,8 @@ import { apiContract } from "./contract";
 import { generateOpenApi } from "@ts-rest/open-api";
 import { serve, setup } from "swagger-ui-express";
 import { YoutubeTranscript } from "youtube-transcript";
+const CSS_URL =
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 
 const app = express();
 
@@ -46,7 +48,7 @@ const openapiDocument = generateOpenApi(
 
 const apiDocs = express.Router();
 apiDocs.use(serve);
-apiDocs.get("/", setup(openapiDocument));
+apiDocs.get("/", setup(openapiDocument, { customCssUrl: CSS_URL }));
 app.use("/docs", apiDocs);
 app.get("/swagger.json", (req, res) => {
   res.json(openapiDocument);
