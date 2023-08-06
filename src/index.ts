@@ -49,7 +49,7 @@ const openapiDocument = generateOpenApi(
 const apiDocs = express.Router();
 apiDocs.use(serve);
 apiDocs.get("/", setup(openapiDocument, { customCssUrl: CSS_URL }));
-app.use("/docs", apiDocs);
+app.use("/", apiDocs);
 app.get("/swagger.json", (req, res) => {
   res.json(openapiDocument);
 });
