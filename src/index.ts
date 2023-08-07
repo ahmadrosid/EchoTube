@@ -1,4 +1,5 @@
 import express from "express";
+import type { Request, Response } from "express";
 import cors from "cors";
 import { initServer, createExpressEndpoints } from "@ts-rest/express";
 import { apiContract } from "./contract";
@@ -50,8 +51,9 @@ const apiDocs = express.Router();
 apiDocs.use(serve);
 apiDocs.get("/", setup(openapiDocument, { customCssUrl: CSS_URL }));
 app.use("/docs", apiDocs);
-app.get("/swagger.json", (req, res) => {
-  res.json(openapiDocument);
+app.get("/swagger.json", (req: Request, res: Response) => {
+  res.contentType("application/json");
+  res.send(JSON.stringify(openapiDocument, null, 2));
 });
 
 createExpressEndpoints(apiContract, router, app);
