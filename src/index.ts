@@ -49,7 +49,7 @@ const router = s.router(apiContract, {
     return {
       status: 200,
       body: {
-        info: viodeoInfo,
+        info: viodeoInfo.basic_info,
         url: body.videoUrl,
         content: transcript.map((item) => item.text).join("\n"),
         language: "English",
