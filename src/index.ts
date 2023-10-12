@@ -8,6 +8,7 @@ import { serve, setup } from "swagger-ui-express";
 import { YoutubeTranscript } from "youtube-transcript";
 const CSS_URL =
   "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
+import { Innertube, UniversalCache } from "youtubei.js";
 
 const app = express();
 
@@ -17,12 +18,38 @@ app.use(express.json());
 
 const s = initServer();
 
+// Typical YouTube URL formats:
+// https://www.youtube.com/watch?v=VIDEO_ID
+// https://youtu.be/VIDEO_ID
+// https://www.youtube.com/embed/VIDEO_ID
+// https://www.youtube.com/v/VIDEO_ID?version=3&autohide=1
+const getYoutubeVideoId = (url: string) => {
+  const match = url.match(
+    /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.{11})/
+  );
+  return match ? match[1] : null;
+};
+
 const router = s.router(apiContract, {
   transcribeVideo: async ({ body }) => {
+    const yt = await Innertube.create({
+      cache: new UniversalCache(false),
+    });
+    const videoId = getYoutubeVideoId(body.videoUrl);
+    if (videoId === null) {
+      return {
+        status: 400,
+        body: {
+          message: "Invalid video URL",
+        },
+      };
+    }
+    const viodeoInfo = await yt.getBasicInfo(videoId);
     const transcript = await YoutubeTranscript.fetchTranscript(body.videoUrl);
     return {
       status: 200,
       body: {
+        info: viodeoInfo,
         url: body.videoUrl,
         content: transcript.map((item) => item.text).join("\n"),
         language: "English",
