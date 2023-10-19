@@ -56,6 +56,31 @@ const router = s.router(apiContract, {
       },
     };
   },
+  getTranscript: async ({ body }) => {
+    const yt = await Innertube.create({
+      cache: new UniversalCache(false),
+    });
+    const videoId = getYoutubeVideoId(body.videoUrl);
+    if (videoId === null) {
+      return {
+        status: 400,
+        body: {
+          message: "Invalid video URL",
+        },
+      };
+    }
+    const viodeoInfo = await yt.getBasicInfo(videoId);
+    const transcript = await YoutubeTranscript.fetchTranscript(body.videoUrl);
+    return {
+      status: 200,
+      body: {
+        info: viodeoInfo.basic_info,
+        url: body.videoUrl,
+        content: transcript,
+        language: "English",
+      },
+    };
+  },
 });
 
 const openapiDocument = generateOpenApi(
