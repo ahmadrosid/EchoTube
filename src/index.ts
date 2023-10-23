@@ -23,10 +23,11 @@ const s = initServer();
 // https://youtu.be/VIDEO_ID
 // https://www.youtube.com/embed/VIDEO_ID
 // https://www.youtube.com/v/VIDEO_ID?version=3&autohide=1
+// https://www.youtube.com/shorts/pQdMy6r6tp4
 const getYoutubeVideoId = (url: string) => {
-  const match = url.match(
-    /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.{11})/
-  );
+  const regex =
+    /(?:\/embed\/|\/v\/|\/watch\?v=|youtu\.be\/|\/shorts\/)([a-zA-Z0-9_-]+)/;
+  const match = url.match(regex);
   return match ? match[1] : null;
 };
 
