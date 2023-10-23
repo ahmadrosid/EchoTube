@@ -23,7 +23,7 @@ const s = initServer();
 // https://youtu.be/VIDEO_ID
 // https://www.youtube.com/embed/VIDEO_ID
 // https://www.youtube.com/v/VIDEO_ID?version=3&autohide=1
-// https://www.youtube.com/shorts/pQdMy6r6tp4
+// https://www.youtube.com/shorts/VIDEO_ID
 const getYoutubeVideoId = (url: string) => {
   const regex =
     /(?:\/embed\/|\/v\/|\/watch\?v=|youtu\.be\/|\/shorts\/)([a-zA-Z0-9_-]+)/;
