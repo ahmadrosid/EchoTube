@@ -109,6 +109,36 @@ const router = s.router(apiContract, {
       body: "",
     };
   },
+  getChannelVideos: async ({ body }) => {
+    const yt = await Innertube.create({
+      cache: new UniversalCache(false),
+    });
+
+    const res = await yt.getChannel(body.id);
+    if (res) {
+      const content = (await res.getVideos()).current_tab?.content as any;
+      return {
+        status: 200,
+        body: {
+          value: content.contents
+            .filter((item: any) => item.content)
+            .map((item: any) => ({
+              id: item.content.id,
+              title: item.content.title.text,
+              description_snippet: item.content.description_snippet?.text || "",
+              published: item.content.published.text,
+              thumbnails: item.content.thumbnails.slice(0, 1),
+              // content: item.content,
+            })),
+        },
+      };
+    }
+
+    return {
+      status: 404,
+      body: "",
+    };
+  },
 });
 
 const openapiDocument = generateOpenApi(

@@ -49,4 +49,15 @@ export const apiContract = contract.router({
     }),
     summary: "Search channels",
   },
+  getChannelVideos: {
+    method: "POST",
+    path: "/channel/videos",
+    responses: {
+      200: z.any(),
+    },
+    body: z.object({
+      id: z.string(),
+    }),
+    summary: "Get trending videos.",
+  },
 });
