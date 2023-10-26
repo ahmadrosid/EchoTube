@@ -38,4 +38,15 @@ export const apiContract = contract.router({
     }),
     summary: "Get youtube transcriptions.",
   },
+  findChannel: {
+    method: "POST",
+    path: "/channels",
+    responses: {
+      200: z.any(),
+    },
+    body: z.object({
+      query: z.string(),
+    }),
+    summary: "Search channels",
+  },
 });

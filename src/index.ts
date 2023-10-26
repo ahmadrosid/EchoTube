@@ -8,7 +8,7 @@ import { serve, setup } from "swagger-ui-express";
 import { YoutubeTranscript } from "youtube-transcript";
 const CSS_URL =
   "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
-import { Innertube, UniversalCache } from "youtubei.js";
+import { ISearchResponse, Innertube, UniversalCache } from "youtubei.js";
 
 const app = express();
 
@@ -80,6 +80,33 @@ const router = s.router(apiContract, {
         content: transcript,
         language: "English",
       },
+    };
+  },
+  findChannel: async ({ body }) => {
+    const yt = await Innertube.create({
+      cache: new UniversalCache(false),
+    });
+
+    const res = await yt.search(body.query, { type: "channel" });
+    if (res.results) {
+      return {
+        status: 200,
+        body: {
+          data: res.results.map((item: any) => ({
+            type: item.type,
+            id: item.id,
+            text: item.short_byline.text,
+            thumbnails: item.author.thumbnails,
+            subscriber_count: item.video_count.text,
+            video_count: item.subscriber_count.text,
+          })),
+        },
+      };
+    }
+
+    return {
+      status: 404,
+      body: "",
     };
   },
 });
