@@ -106,7 +106,9 @@ const router = s.router(apiContract, {
 
     return {
       status: 404,
-      body: "",
+      body: {
+        data: [],
+      },
     };
   },
   getChannelVideos: async ({ body }) => {
