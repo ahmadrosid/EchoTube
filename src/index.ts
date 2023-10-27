@@ -120,14 +120,19 @@ const router = s.router(apiContract, {
       return {
         status: 200,
         body: {
-          value: content.contents
+          title: res.metadata.title,
+          url: res.metadata.url,
+          contents: content.contents
             .filter((item: any) => item.content)
             .map((item: any) => ({
               id: item.content.id,
               title: item.content.title.text,
               description_snippet: item.content.description_snippet?.text || "",
               published: item.content.published.text,
+              view_count: item.content.view_count.text,
+              duration: item.content.duration.text,
               thumbnails: item.content.thumbnails.slice(0, 1),
+              link: `https://youtube.com/watch?v=${item.content.id}`,
               // content: item.content,
             })),
         },
