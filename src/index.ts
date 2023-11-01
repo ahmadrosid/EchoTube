@@ -82,6 +82,27 @@ const router = s.router(apiContract, {
       },
     };
   },
+  getVideoInfo: async ({ body }) => {
+    const yt = await Innertube.create({
+      cache: new UniversalCache(false),
+    });
+    const videoId = getYoutubeVideoId(body.videoUrl);
+    if (videoId === null) {
+      return {
+        status: 400,
+        body: {
+          message: "Invalid video URL",
+        },
+      };
+    }
+    const viodeoInfo = await yt.getBasicInfo(videoId);
+    return {
+      status: 200,
+      body: {
+        data: viodeoInfo.basic_info,
+      },
+    };
+  },
   findChannel: async ({ body }) => {
     const yt = await Innertube.create({
       cache: new UniversalCache(false),

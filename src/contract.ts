@@ -15,6 +15,10 @@ const TranscriptSchema = z.object({
   content: z.any(),
 });
 
+const VideoInfoSchema = z.object({
+  data: z.any(),
+});
+
 export const apiContract = contract.router({
   transcribeVideo: {
     method: "POST",
@@ -37,6 +41,17 @@ export const apiContract = contract.router({
       videoUrl: z.string(),
     }),
     summary: "Get youtube transcriptions.",
+  },
+  getVideoInfo: {
+    method: "POST",
+    path: "/get-video-info",
+    responses: {
+      200: VideoInfoSchema,
+    },
+    body: z.object({
+      videoUrl: z.string(),
+    }),
+    summary: "Get video info like, description, thumbnail, title hastag etc.",
   },
   findChannel: {
     method: "POST",
