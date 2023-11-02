@@ -71,7 +71,13 @@ const router = s.router(apiContract, {
       };
     }
     const viodeoInfo = await yt.getBasicInfo(videoId);
-    const transcript = await YoutubeTranscript.fetchTranscript(body.videoUrl);
+    const config = {
+      lang: "en",
+    };
+    const transcript = await YoutubeTranscript.fetchTranscript(
+      body.videoUrl,
+      config
+    );
     return {
       status: 200,
       body: {
