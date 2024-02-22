@@ -8,7 +8,7 @@ import { serve, setup } from "swagger-ui-express";
 import { YoutubeTranscript } from "youtube-transcript";
 const CSS_URL =
   "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
-import { ISearchResponse, Innertube, UniversalCache } from "youtubei.js";
+import { Innertube, UniversalCache } from "youtubei.js";
 
 const app = express();
 
@@ -60,6 +60,8 @@ const router = s.router(apiContract, {
   getTranscript: async ({ body }) => {
     const yt = await Innertube.create({
       cache: new UniversalCache(false),
+      enable_safety_mode: false,
+      generate_session_locally: false,
     });
     const videoId = getYoutubeVideoId(body.videoUrl);
     if (videoId === null) {
@@ -70,7 +72,7 @@ const router = s.router(apiContract, {
         },
       };
     }
-    const viodeoInfo = await yt.getBasicInfo(videoId);
+    // const viodeoInfo = await yt.getBasicInfo(videoId);
     const config = {
       lang: "en",
     };
@@ -81,7 +83,7 @@ const router = s.router(apiContract, {
     return {
       status: 200,
       body: {
-        info: viodeoInfo.basic_info,
+        // info: viodeoInfo.basic_info,
         url: body.videoUrl,
         content: transcript,
         language: "English",
