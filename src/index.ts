@@ -72,7 +72,7 @@ const router = s.router(apiContract, {
         },
       };
     }
-    // const viodeoInfo = await yt.getBasicInfo(videoId);
+    const viodeoInfo = await yt.getBasicInfo(videoId);
     const config = {
       lang: "en",
     };
@@ -83,7 +83,7 @@ const router = s.router(apiContract, {
     return {
       status: 200,
       body: {
-        // info: viodeoInfo.basic_info,
+        info: viodeoInfo.basic_info,
         url: body.videoUrl,
         content: transcript,
         language: "English",
@@ -164,7 +164,7 @@ const router = s.router(apiContract, {
               duration: item.content.duration.text,
               thumbnails: item.content.thumbnails.slice(0, 1),
               link: `https://youtube.com/watch?v=${item.content.id}`,
-              // content: item.content,
+              content: item.content,
             })),
         },
       };
